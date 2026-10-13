@@ -58,7 +58,8 @@ def check(title, desc, lim):
         issues.append("description is %d chars (max %d)" % (len(desc), lim["desc_max"]))
     low = (title + " " + desc).lower()
     for w in RISKY:
-        if w in low:
+        # a claim word must start a word: "лучш" is risky, "улучшенный" is not
+        if re.search(r"(?<![0-9a-zа-яіїєґ])" + re.escape(w), low):
             issues.append("risky claim: %r" % w)
     return issues
 

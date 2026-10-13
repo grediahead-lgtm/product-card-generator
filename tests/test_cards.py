@@ -62,6 +62,14 @@ class CheckTests(unittest.TestCase):
         self.assertTrue(any("100%" in x for x in got))
 
 
+class RiskyWordTests(unittest.TestCase):
+    LIM = {"title_min": 1, "title_max": 100, "desc_min": 1, "desc_max": 500}
+
+    def test_word_start_only(self):
+        self.assertEqual(check("Лежак", "Улучшенный материал", self.LIM), [])
+        self.assertTrue(check("Лежак", "Лучший материал", self.LIM))
+
+
 class RunTests(unittest.TestCase):
     def test_example_flags(self):
         out, info = run(ROWS, CFG)
